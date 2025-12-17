@@ -1,3 +1,10 @@
+type StatusRespRaw = {
+  uptime_s: number
+  load1: number
+  mem_total_kb: number
+  mem_avail_kb: number
+}
+
 export type StatusResp = {
   uptime: number
   load1: number
@@ -19,13 +26,25 @@ export type CtlResp = {
 }
 
 async function getJson<T>(url: string): Promise<T> {
-  const res = await fetch(url, { cache: 'no-store' })
-  if (!res.ok) throw new Error(`${res.status} ${res.statusText}`)
-  return await res.json() as T
+  const r = await fetch(url, { cache: 'no-store' })
+  if (!r.ok) throw new Error(`${r.status} ${r.statusText}`)
+  return (await r.json()) as T
+}
+
+function mapStatus(raw: StatusRespRaw): StatusResp {
+  return {
+    uptime: raw.uptime_s,
+    load1: raw.load1,
+    memTotalKb: raw.mem_total_kb,
+    memAvailKb: raw.mem_avail_kb,
+  }
 }
 
 export const api = {
-  status: () => getJson<StatusResp>('/cgi-bin/status.cgi'),
+  async status(): Promise<StatusResp> {
+    const raw = await getJson<StatusRespRaw>('/cgi-bin/status.cgi')
+    return mapStatus(raw)
+  },
   files: () => getJson<FileItem[]>('/cgi-bin/files.cgi'),
   ctlStatus: () => getJson<CtlResp>('/cgi-bin/ctl.cgi?action=status'),
   ctlStart: () => getJson<CtlResp>('/cgi-bin/ctl.cgi?action=start'),
