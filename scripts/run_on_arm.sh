@@ -1,10 +1,17 @@
 #!/bin/sh
 set -eu
 
-mkdir -p /data/inbox /var/log /var/run
+WEB_PORT=8081
+WEB_ROOT=/www
 
-# 启动 filesrv（也可以后续改为通过 ctl.cgi 启停）
-/usr/bin/filesrv -p 9000 -d /data/inbox >/dev/null 2>&1 &
+mkdir -p /data/inbox /var/log /var/run "$WEB_ROOT/cgi-bin"
 
-# 启动 busybox httpd（前台便于调试；若要后台可加 &）
-busybox httpd -f -p 8081 -h /www
+# 如果端口已被占用，说明 httpd 已在运行，直接退出即可（避免 Address already in use）
+if ss -lnt 2>/dev/null | grep -q ":$WEB_PORT" || netstat -lnt 2>/dev/null | grep -q ":$WEB_PORT"; then
+  echo "[INFO] httpd already listening on :$WEB_PORT"
+  exit 0
+fi
+
+# 后台启动 httpd
+busybox httpd -f -p "$WEB_PORT" -h "$WEB_ROOT" >/var/log/httpd.log 2>&1 &
+echo "[OK] httpd started on :$WEB_PORT (root=$WEB_ROOT)"
