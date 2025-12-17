@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Embedded Manager</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    .card {
+      border: 1px solid #ccc;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+
+    button {
+      margin-right: 8px;
+    }
+
+    pre {
+      background: #f6f6f6;
+      padding: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>Embedded Manager (QEMU ARM)</h2>
+
+  <div class="card">
+    <h3>Status</h3>
+    <pre id="status">loading...</pre>
+  </div>
+
+  <div class="card">
+    <h3>Files</h3>
+    <button onclick="refreshFiles()">Refresh</button>
+    <pre id="files">loading...</pre>
+  </div>
+
+  <div class="card">
+    <h3>Control</h3>
+    <button onclick="fetch('/cgi-bin/ctl.cgi?action=start').then(r=>r.text()).then(alert)">Start filesrv</button>
+    <button onclick="fetch('/cgi-bin/ctl.cgi?action=stop').then(r=>r.text()).then(alert)">Stop filesrv</button>
+  </div>
+
+  <script>
+    async function refreshStatus() {
+      const r = await fetch('/cgi-bin/status.cgi', { cache: 'no-store' });
+      document.getElementById('status').textContent = await r.text();
+    }
+    async function refreshFiles() {
+      const r = await fetch('/cgi-bin/files.cgi', { cache: 'no-store' });
+      document.getElementById('files').textContent = await r.text();
+    }
+    refreshStatus(); refreshFiles();
+    setInterval(refreshStatus, 1000);
+  </script>
+</body>
+
+</html>
