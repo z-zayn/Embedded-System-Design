@@ -81,6 +81,7 @@ int main(int argc, char **argv)
   if (connect(s, (struct sockaddr *)&addr, sizeof(addr)) < 0)
   {
     perror("connect");
+    fprintf(stderr, "Hint: filesrv may be stopped or port-forward not active.\n");
     return 1;
   }
 
