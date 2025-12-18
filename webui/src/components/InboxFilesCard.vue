@@ -50,7 +50,7 @@
             size="small"
             type="primary"
             link
-            :href="downloadUrl(scope.row.name)"
+            @click="onDownload(scope.row.name)"
           >
             Download
           </el-button>
@@ -84,6 +84,17 @@ const emit = defineEmits<{
 
 function downloadUrl(name: string) {
   return `/cgi-bin/download.cgi?name=${encodeURIComponent(name)}`;
+}
+
+function onDownload(name: string) {
+  const url = downloadUrl(name)
+  // eslint-disable-next-line no-undef
+  const a = document.createElement('a')
+  a.href = url
+  // eslint-disable-next-line no-undef
+  document.body.appendChild(a)
+  a.click()
+  a.remove()
 }
 
 async function onDelete(name: string) {
