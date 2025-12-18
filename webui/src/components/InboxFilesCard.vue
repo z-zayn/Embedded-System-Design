@@ -2,13 +2,13 @@
   <el-card>
     <template #header>
       <div class="card-header">
-        <span>Files in /data/inbox</span>
+        <span>文件列表</span>
         <el-button
           size="small"
           :loading="loading"
           @click="$emit('refresh')"
         >
-          Refresh
+          刷新
         </el-button>
       </div>
     </template>
@@ -46,7 +46,6 @@
             size="small"
             type="primary"
             link
-            tag="a"
             :href="downloadUrl(scope.row.name)"
           >
             Download
@@ -63,11 +62,6 @@
         </template>
       </el-table-column>
     </el-table>
-
-    <div class="hint">
-      Tip: Stop filesrv and run filecli again to show “upload fails when
-      stopped” in your demo.
-    </div>
   </el-card>
 </template>
 
@@ -112,11 +106,5 @@ function formatTime(epochSec: number) {
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-
-.hint {
-  margin-top: 10px;
-  color: #666;
-  font-size: 12px;
 }
 </style>

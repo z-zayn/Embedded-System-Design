@@ -2,13 +2,13 @@
   <el-card>
     <template #header>
       <div class="card-header">
-        <span>System Status</span>
+        <span>系统状态</span>
         <el-button
           size="small"
           :loading="loading"
           @click="$emit('refresh')"
         >
-          Refresh
+          刷新
         </el-button>
       </div>
     </template>
