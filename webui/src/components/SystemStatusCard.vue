@@ -1,5 +1,5 @@
 <template>
-  <el-card>
+  <el-card class="system-status-card">
     <template #header>
       <div class="card-header">
         <span>系统状态</span>
@@ -35,36 +35,7 @@
           </div>
         </div>
       </el-descriptions-item>
-
-      <el-descriptions-item label="filesrv">
-        <el-tag :type="running ? 'success' : 'danger'">
-          {{ running ? "RUNNING" : "STOPPED" }}
-        </el-tag>
-        <span
-          v-if="pid"
-          class="muted"
-        >PID: {{ pid }}</span>
-      </el-descriptions-item>
     </el-descriptions>
-
-    <div class="ctl">
-      <el-button
-        type="success"
-        :disabled="running"
-        :loading="ctlBusy"
-        @click="$emit('start')"
-      >
-        Start
-      </el-button>
-      <el-button
-        type="danger"
-        :disabled="!running"
-        :loading="ctlBusy"
-        @click="$emit('stop')"
-      >
-        Stop
-      </el-button>
-    </div>
   </el-card>
 </template>
 
@@ -73,16 +44,11 @@ import type { StatusResp } from "@/api";
 
 const props = defineProps<{
   loading: boolean;
-  ctlBusy: boolean;
   status: StatusResp | null;
-  running: boolean;
-  pid?: number;
 }>();
 
 defineEmits<{
   (e: "refresh"): void;
-  (e: "start"): void;
-  (e: "stop"): void;
 }>();
 
 const memPercent = computed(() => {
@@ -128,6 +94,10 @@ function loadTagType(load1: number) {
 </script>
 
 <style scoped lang="scss">
+.system-status-card {
+  margin-bottom: 16px;
+}
+
 .card-header {
   display: flex;
   align-items: center;
@@ -148,11 +118,5 @@ function loadTagType(load1: number) {
 .muted {
   margin-left: 10px;
   color: #666;
-}
-
-.ctl {
-  margin-top: 12px;
-  display: flex;
-  gap: 10px;
 }
 </style>

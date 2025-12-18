@@ -18,13 +18,6 @@ export type FileItem = {
   mtime: number
 }
 
-export type CtlResp = {
-  ok: boolean
-  msg: string
-  running?: boolean
-  pid?: number
-}
-
 export type FileOpResp = {
   ok: boolean
   msg: string
@@ -51,9 +44,6 @@ export const api = {
     return mapStatus(raw)
   },
   files: () => getJson<FileItem[]>('/cgi-bin/files.cgi'),
-  ctlStatus: () => getJson<CtlResp>('/cgi-bin/ctl.cgi?action=status'),
-  ctlStart: () => getJson<CtlResp>('/cgi-bin/ctl.cgi?action=start'),
-  ctlStop: () => getJson<CtlResp>('/cgi-bin/ctl.cgi?action=stop'),
   deleteFile: (name: string) =>
     getJson<FileOpResp>(`/cgi-bin/delete.cgi?name=${encodeURIComponent(name)}`),
   downloadUrl: (name: string) =>

@@ -7,13 +7,8 @@
       >
         <SystemStatusCard
           :loading="loading"
-          :ctl-busy="ctlBusy"
           :status="status"
-          :running="isFilesrvRunning"
-          :pid="ctl.pid"
           @refresh="refreshAll"
-          @start="startSrv"
-          @stop="stopSrv"
         />
       </el-col>
 
@@ -33,20 +28,16 @@
 </template>
 
 <script setup lang="ts">
-import { api, type StatusResp, type FileItem, type CtlResp } from "@/api";
+import { api, type StatusResp, type FileItem } from "@/api";
 import SystemStatusCard from "@/components/SystemStatusCard.vue";
 import InboxFilesCard from "@/components/InboxFilesCard.vue";
 import UploadCard from "@/components/UploadCard.vue";
 
 const loading = ref(false);
 const filesLoading = ref(false);
-const ctlBusy = ref(false);
 
 const status = ref<StatusResp | null>(null);
 const files = ref<FileItem[]>([]);
-const ctl = ref<CtlResp>({ ok: true, msg: "init", running: false });
-
-const isFilesrvRunning = computed(() => !!ctl.value.running);
 
 async function refreshStatus() {
   status.value = await api.status();
@@ -61,44 +52,14 @@ async function refreshFiles() {
   }
 }
 
-async function refreshCtl() {
-  ctl.value = await api.ctlStatus();
-}
-
 async function refreshAll() {
   loading.value = true;
   try {
-    await Promise.all([refreshStatus(), refreshFiles(), refreshCtl()]);
+    await Promise.all([refreshStatus(), refreshFiles()]);
   } catch (e: any) {
     ElMessage.error(e?.message ?? "refresh failed");
   } finally {
     loading.value = false;
-  }
-}
-
-async function startSrv() {
-  ctlBusy.value = true;
-  try {
-    const r = await api.ctlStart();
-    ctl.value = r;
-    ElMessage.success(r.msg);
-  } catch (e: any) {
-    ElMessage.error(e?.message ?? "start failed");
-  } finally {
-    ctlBusy.value = false;
-  }
-}
-
-async function stopSrv() {
-  ctlBusy.value = true;
-  try {
-    const r = await api.ctlStop();
-    ctl.value = r;
-    ElMessage.success(r.msg);
-  } catch (e: any) {
-    ElMessage.error(e?.message ?? "stop failed");
-  } finally {
-    ctlBusy.value = false;
   }
 }
 
@@ -109,7 +70,6 @@ onMounted(async () => {
   timer = setInterval(async () => {
     try {
       await refreshStatus();
-      await refreshCtl();
     } catch {
       // 忽略定时失败，避免刷屏
     }
