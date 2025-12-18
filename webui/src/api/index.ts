@@ -58,4 +58,6 @@ export const api = {
     getJson<FileOpResp>(`/cgi-bin/delete.cgi?name=${encodeURIComponent(name)}`),
   downloadUrl: (name: string) =>
     `/cgi-bin/download.cgi?name=${encodeURIComponent(name)}`,
+  uploadUrl: (name: string) =>
+    `/cgi-bin/upload.cgi?name=${encodeURIComponent(name)}`,
 }

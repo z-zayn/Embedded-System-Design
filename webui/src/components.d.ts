@@ -25,5 +25,6 @@ declare module 'vue' {
     InboxFilesCard: typeof import('./components/InboxFilesCard.vue')['default']
     LastOperationCard: typeof import('./components/LastOperationCard.vue')['default']
     SystemStatusCard: typeof import('./components/SystemStatusCard.vue')['default']
+    UploadCard: typeof import('./components/UploadCard.vue')['default']
   }
 }
