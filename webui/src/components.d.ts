@@ -22,6 +22,7 @@ declare module 'vue' {
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTag: typeof import('element-plus/es')['ElTag']
+    ElUpload: typeof import('element-plus/es')['ElUpload']
     InboxFilesCard: typeof import('./components/InboxFilesCard.vue')['default']
     LastOperationCard: typeof import('./components/LastOperationCard.vue')['default']
     SystemStatusCard: typeof import('./components/SystemStatusCard.vue')['default']

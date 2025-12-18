@@ -1,15 +1,13 @@
 <template>
-  <el-card>
+  <el-card style="margin-top: 16px">
     <template #header>
       <div class="card-header">
-        <span>Upload to /data/inbox</span>
+        <span>文件上传</span>
       </div>
     </template>
 
     <el-upload
       drag
-      :show-file-list="true"
-      :limit="1"
       :multiple="false"
       :auto-upload="true"
       :http-request="doUpload"
@@ -17,24 +15,19 @@
       <div class="el-upload__text">
         Drop file here or <em>click to upload</em>
       </div>
-      <template #tip>
-        <div class="tip">
-          Files will appear in the Inbox list after upload completes.
-        </div>
-      </template>
     </el-upload>
   </el-card>
 </template>
 
 <script setup lang="ts">
+import { type UploadRequestOptions, } from "element-plus";
 import { api } from "@/api";
 
 const emit = defineEmits<{
   (e: "uploaded"): void;
 }>();
 
-// Element Plus Upload 自定义请求：options 结构里包含 file/onProgress/onSuccess/onError
-function doUpload(options: any) {
+function doUpload(options: UploadRequestOptions) {
   const file: File = options.file;
   const url = api.uploadUrl(file.name);
 

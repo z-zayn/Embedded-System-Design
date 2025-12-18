@@ -29,10 +29,7 @@
       </el-col>
     </el-row>
 
-    <LastOperationCard
-      :last-msg="lastMsg"
-      :last-raw="lastRaw"
-    />
+    <UploadCard @uploaded="refreshFiles" />
   </div>
 </template>
 
@@ -40,7 +37,7 @@
 import { api, type StatusResp, type FileItem, type CtlResp } from "@/api";
 import SystemStatusCard from "@/components/SystemStatusCard.vue";
 import InboxFilesCard from "@/components/InboxFilesCard.vue";
-import LastOperationCard from "@/components/LastOperationCard.vue";
+import UploadCard from "@/components/UploadCard.vue";
 
 const loading = ref(false);
 const filesLoading = ref(false);
@@ -50,15 +47,7 @@ const status = ref<StatusResp | null>(null);
 const files = ref<FileItem[]>([]);
 const ctl = ref<CtlResp>({ ok: true, msg: "init", running: false });
 
-const lastMsg = ref("");
-const lastRaw = ref("");
-
 const isFilesrvRunning = computed(() => !!ctl.value.running);
-
-function recordOp(title: string, obj: any) {
-  lastMsg.value = title;
-  lastRaw.value = JSON.stringify(obj, null, 2);
-}
 
 async function refreshStatus() {
   status.value = await api.status();
@@ -93,7 +82,6 @@ async function startSrv() {
   try {
     const r = await api.ctlStart();
     ctl.value = r;
-    recordOp("Start filesrv", r);
     ElMessage.success(r.msg);
   } catch (e: any) {
     ElMessage.error(e?.message ?? "start failed");
@@ -107,7 +95,6 @@ async function stopSrv() {
   try {
     const r = await api.ctlStop();
     ctl.value = r;
-    recordOp("Stop filesrv", r);
     ElMessage.success(r.msg);
   } catch (e: any) {
     ElMessage.error(e?.message ?? "stop failed");
