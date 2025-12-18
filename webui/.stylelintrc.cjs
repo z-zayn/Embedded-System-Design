@@ -3,7 +3,6 @@ module.exports = {
     "stylelint-config-standard",
     "stylelint-config-standard-scss",
     "stylelint-config-recommended-vue",
-    "stylelint-config-prettier"
   ],
   overrides: [
     {
