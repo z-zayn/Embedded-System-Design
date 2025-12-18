@@ -70,7 +70,7 @@
 </template>
 
 <script setup lang="ts">
-import type { FileItem } from "../api";
+import type { FileItem } from "@/api";
 
 defineProps<{
   loading: boolean;

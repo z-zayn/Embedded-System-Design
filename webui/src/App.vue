@@ -37,10 +37,10 @@
 </template>
 
 <script setup lang="ts">
-import { api, type StatusResp, type FileItem, type CtlResp } from "./api";
-import SystemStatusCard from "./components/SystemStatusCard.vue";
-import InboxFilesCard from "./components/InboxFilesCard.vue";
-import LastOperationCard from "./components/LastOperationCard.vue";
+import { api, type StatusResp, type FileItem, type CtlResp } from "@/api";
+import SystemStatusCard from "@/components/SystemStatusCard.vue";
+import InboxFilesCard from "@/components/InboxFilesCard.vue";
+import LastOperationCard from "@/components/LastOperationCard.vue";
 
 const loading = ref(false);
 const filesLoading = ref(false);

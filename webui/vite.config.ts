@@ -3,9 +3,14 @@ import vue from '@vitejs/plugin-vue'
 import AutoImport from "unplugin-auto-import/vite"
 import Components from "unplugin-vue-components/vite"
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers"
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-  plugins: [vue(),
+  plugins: [
+    vue(),
     AutoImport({
       imports: ["vue"],
       dts: "src/auto-imports.d.ts",
@@ -25,6 +30,11 @@ export default defineConfig({
     }),
   ],
   base: './',
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "src"),
+    },
+  },
   server: {
     proxy: {
       '/cgi-bin': {

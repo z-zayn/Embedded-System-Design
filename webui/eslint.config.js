@@ -2,7 +2,6 @@ import js from "@eslint/js";
 import vue from "eslint-plugin-vue";
 import tseslint from "typescript-eslint";
 import vueParser from "vue-eslint-parser";
-
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";

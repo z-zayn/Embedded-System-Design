@@ -69,7 +69,7 @@
 </template>
 
 <script setup lang="ts">
-import type { StatusResp } from "../api";
+import type { StatusResp } from "@/api";
 
 const props = defineProps<{
   loading: boolean;
