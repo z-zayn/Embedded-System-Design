@@ -40,11 +40,33 @@
           {{ formatTime(scope.row.mtime) }}
         </template>
       </el-table-column>
+      <el-table-column label="Actions" width="160" fixed="right">
+        <template #default="scope">
+          <el-button
+            size="small"
+            type="primary"
+            link
+            tag="a"
+            :href="downloadUrl(scope.row.name)"
+          >
+            Download
+          </el-button>
+
+          <el-button
+            size="small"
+            type="danger"
+            link
+            @click="onDelete(scope.row.name)"
+          >
+            Delete
+          </el-button>
+        </template>
+      </el-table-column>
     </el-table>
 
     <div class="hint">
-      Tip: Stop filesrv and run filecli again to show “upload fails when stopped”
-      in your demo.
+      Tip: Stop filesrv and run filecli again to show “upload fails when
+      stopped” in your demo.
     </div>
   </el-card>
 </template>
@@ -57,9 +79,21 @@ defineProps<{
   files: FileItem[];
 }>();
 
-defineEmits<{
+const emit = defineEmits<{
   (e: "refresh"): void;
+  (e: "delete", name: string): void;
 }>();
+
+function downloadUrl(name: string) {
+  return `/cgi-bin/download.cgi?name=${encodeURIComponent(name)}`;
+}
+
+async function onDelete(name: string) {
+  await ElMessageBox.confirm(`Delete "${name}" from /data/inbox?`, "Confirm", {
+    type: "warning",
+  });
+  emit("delete", name);
+}
 
 function formatSize(n: number) {
   if (n < 1024) return `${n} B`;

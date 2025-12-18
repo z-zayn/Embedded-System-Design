@@ -25,6 +25,11 @@ export type CtlResp = {
   pid?: number
 }
 
+export type FileOpResp = {
+  ok: boolean
+  msg: string
+}
+
 async function getJson<T>(url: string): Promise<T> {
   const r = await fetch(url, { cache: 'no-store' })
   if (!r.ok) throw new Error(`${r.status} ${r.statusText}`)
@@ -49,4 +54,8 @@ export const api = {
   ctlStatus: () => getJson<CtlResp>('/cgi-bin/ctl.cgi?action=status'),
   ctlStart: () => getJson<CtlResp>('/cgi-bin/ctl.cgi?action=start'),
   ctlStop: () => getJson<CtlResp>('/cgi-bin/ctl.cgi?action=stop'),
+  deleteFile: (name: string) =>
+    getJson<FileOpResp>(`/cgi-bin/delete.cgi?name=${encodeURIComponent(name)}`),
+  downloadUrl: (name: string) =>
+    `/cgi-bin/download.cgi?name=${encodeURIComponent(name)}`,
 }
