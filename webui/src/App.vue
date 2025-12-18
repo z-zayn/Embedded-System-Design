@@ -149,8 +149,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from "vue";
-import { ElMessage } from "element-plus";
 import { api, type StatusResp, type FileItem, type CtlResp } from "./api";
 
 const loading = ref(false);

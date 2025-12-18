@@ -2,6 +2,7 @@ import js from "@eslint/js";
 import vue from "eslint-plugin-vue";
 import tseslint from "typescript-eslint";
 import vueParser from "vue-eslint-parser";
+import autoImportGlobals from "./.eslintrc-auto-import.json" assert { type: "json" };
 
 export default [
   {
@@ -24,6 +25,9 @@ export default [
         ecmaVersion: "latest",
         sourceType: "module",
         extraFileExtensions: [".vue"],
+      },
+      globals: {
+        ...autoImportGlobals.globals,
       },
     },
     rules: {
