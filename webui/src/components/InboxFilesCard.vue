@@ -1,5 +1,5 @@
 <template>
-  <el-card style="margin-top: 16px">
+  <el-card>
     <template #header>
       <div class="card-header">
         <span>文件列表</span>
@@ -15,7 +15,7 @@
 
     <el-table
       :data="files"
-      height="360"
+      height="400"
       size="small"
       stripe
     >

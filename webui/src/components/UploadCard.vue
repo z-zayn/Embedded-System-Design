@@ -71,13 +71,15 @@ function doUpload(options: UploadRequestOptions) {
 
 <style scoped lang="scss">
 .upload-card {
-  height: 100%;
+  margin-bottom: 16px;
 }
+
 .card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
+
 .tip {
   color: #666;
   font-size: 12px;
