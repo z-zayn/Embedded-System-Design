@@ -5,7 +5,7 @@ set -eu
 mkdir -p /www/cgi-bin /data/inbox /var/log /var/run /usr/bin
 
 # 部署 CGI
-cp -f /mnt/build/status.cgi /mnt/build/files.cgi /mnt/build/ctl.cgi /mnt/build/download.cgi /mnt/build/delete.cgi /www/cgi-bin/
+cp -f /mnt/build/status.cgi /mnt/build/files.cgi /mnt/build/ctl.cgi /mnt/build/download.cgi /mnt/build/delete.cgi /mnt/build/upload.cgi /www/cgi-bin/
 chmod +x /www/cgi-bin/*.cgi
 
 # 部署服务
