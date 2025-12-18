@@ -40,7 +40,11 @@
           {{ formatTime(scope.row.mtime) }}
         </template>
       </el-table-column>
-      <el-table-column label="Actions" width="160" fixed="right">
+      <el-table-column
+        label="Actions"
+        width="160"
+        fixed="right"
+      >
         <template #default="scope">
           <el-button
             size="small"

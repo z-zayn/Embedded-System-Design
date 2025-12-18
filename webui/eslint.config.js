@@ -2,7 +2,23 @@ import js from "@eslint/js";
 import vue from "eslint-plugin-vue";
 import tseslint from "typescript-eslint";
 import vueParser from "vue-eslint-parser";
-import autoImportGlobals from "./.eslintrc-auto-import.json" assert { type: "json" };
+
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+let autoImportGlobals = {};
+try {
+  const p = path.join(__dirname, ".eslintrc-auto-import.json");
+  const json = JSON.parse(fs.readFileSync(p, "utf8"));
+  autoImportGlobals = json.globals ?? {};
+} catch {
+  // 文件不存在或解析失败时忽略（例如首次运行还没生成）
+  autoImportGlobals = {};
+}
 
 export default [
   {
@@ -27,7 +43,7 @@ export default [
         extraFileExtensions: [".vue"],
       },
       globals: {
-        ...autoImportGlobals.globals,
+        ...autoImportGlobals,
       },
     },
     rules: {
