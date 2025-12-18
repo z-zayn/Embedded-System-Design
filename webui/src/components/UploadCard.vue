@@ -1,5 +1,5 @@
 <template>
-  <el-card style="margin-top: 16px">
+  <el-card class="upload-card">
     <template #header>
       <div class="card-header">
         <span>文件上传</span>
@@ -70,6 +70,9 @@ function doUpload(options: UploadRequestOptions) {
 </script>
 
 <style scoped lang="scss">
+.upload-card {
+  height: 100%;
+}
 .card-header {
   display: flex;
   align-items: center;

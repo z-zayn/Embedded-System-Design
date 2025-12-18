@@ -21,15 +21,14 @@
         :xs="24"
         :md="12"
       >
-        <InboxFilesCard
-          :loading="filesLoading"
-          :files="files"
-          @refresh="refreshFiles"
-        />
+        <UploadCard @uploaded="refreshFiles" />
       </el-col>
     </el-row>
-
-    <UploadCard @uploaded="refreshFiles" />
+    <InboxFilesCard
+      :loading="filesLoading"
+      :files="files"
+      @refresh="refreshFiles"
+    />
   </div>
 </template>
 
