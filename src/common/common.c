@@ -6,6 +6,7 @@
 #include <sys/stat.h>
 #include <errno.h>
 #include <unistd.h>
+#include <ctype.h>
 
 int ensure_dir(const char *path)
 {
@@ -85,5 +86,45 @@ int read_first_line(const char *path, char *buf, size_t bufsz)
   size_t n = strlen(buf);
   while (n && (buf[n - 1] == '\n' || buf[n - 1] == '\r'))
     buf[--n] = '\0';
+  return 0;
+}
+
+static int hexval(char c)
+{
+  if (c >= '0' && c <= '9')
+    return c - '0';
+  if (c >= 'a' && c <= 'f')
+    return c - 'a' + 10;
+  if (c >= 'A' && c <= 'F')
+    return c - 'A' + 10;
+  return -1;
+}
+
+int url_decode(const char *in, char *out, size_t out_sz)
+{
+  if (!in || !out || out_sz < 2)
+    return -1;
+  size_t j = 0;
+  for (size_t i = 0; in[i] && j + 1 < out_sz; i++)
+  {
+    if (in[i] == '%')
+    {
+      int a = hexval(in[i + 1]);
+      int b = hexval(in[i + 2]);
+      if (a < 0 || b < 0)
+        return -1;
+      out[j++] = (char)((a << 4) | b);
+      i += 2;
+    }
+    else if (in[i] == '+')
+    {
+      out[j++] = ' ';
+    }
+    else
+    {
+      out[j++] = in[i];
+    }
+  }
+  out[j] = '\0';
   return 0;
 }

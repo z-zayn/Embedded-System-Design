@@ -10,7 +10,7 @@ BUILD:= $(ROOT)/build
 
 CFLAGS := -O2 -Wall -std=gnu99
 
-ARM_BINS := filesrv status.cgi files.cgi ctl.cgi
+ARM_BINS := filesrv status.cgi files.cgi ctl.cgi download.cgi delete.cgi
 HOST_BINS := filecli
 
 ARM_OUT := $(addprefix $(BUILD)/,$(ARM_BINS))
@@ -38,6 +38,12 @@ $(BUILD)/ctl.cgi: $(SRC)/cgi/ctl.c $(SRC)/common/common.c | $(BUILD)
 
 $(BUILD)/filecli: $(SRC)/svc/filecli.c | $(BUILD)
 	$(CC_HOST) $(CFLAGS) -o $@ $^
+
+$(BUILD)/download.cgi: $(SRC)/cgi/download.c $(SRC)/common/common.c | $(BUILD)
+	$(CC_ARM) $(CFLAGS) -o $@ $^
+
+$(BUILD)/delete.cgi: $(SRC)/cgi/delete.c $(SRC)/common/common.c | $(BUILD)
+	$(CC_ARM) $(CFLAGS) -o $@ $^
 
 clean:
 	rm -f $(ARM_OUT) $(HOST_OUT)
