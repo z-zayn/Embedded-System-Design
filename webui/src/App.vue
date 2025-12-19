@@ -23,6 +23,7 @@
       :loading="filesLoading"
       :files="files"
       @refresh="refreshFiles"
+      @delete="deleteFile"
     />
   </div>
 </template>
@@ -49,6 +50,17 @@ async function refreshFiles() {
     files.value = await api.files();
   } finally {
     filesLoading.value = false;
+  }
+}
+
+async function deleteFile(name: string) {
+  try {
+    const r = await api.deleteFile(name)
+    if (r.ok) ElMessage.success(r.msg)
+    else ElMessage.error(r.msg)
+    await refreshFiles()
+  } catch (e: any) {
+    ElMessage.error(e?.message ?? "delete failed")
   }
 }
 
