@@ -11,7 +11,6 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    ElAlert: typeof import('element-plus/es')['ElAlert']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
     ElCol: typeof import('element-plus/es')['ElCol']
@@ -24,7 +23,6 @@ declare module 'vue' {
     ElTag: typeof import('element-plus/es')['ElTag']
     ElUpload: typeof import('element-plus/es')['ElUpload']
     InboxFilesCard: typeof import('./components/InboxFilesCard.vue')['default']
-    LastOperationCard: typeof import('./components/LastOperationCard.vue')['default']
     SystemStatusCard: typeof import('./components/SystemStatusCard.vue')['default']
     UploadCard: typeof import('./components/UploadCard.vue')['default']
   }

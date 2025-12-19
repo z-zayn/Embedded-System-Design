@@ -4,15 +4,18 @@ set -eu
 SRC=/mnt/webui/dist
 DST=/www
 
-if [ ! -d "$SRC" ]; then
-  echo "[ERR] dist not found: $SRC (run scripts/build_ui.sh in WSL first)"
-  exit 1
-fi
+[ -d "$SRC" ] || { echo "[ERR] dist not found: $SRC"; exit 1; }
+mkdir -p "$DST" "$DST/cgi-bin"
 
-mkdir -p "$DST"
+# 1) 清理旧静态文件（保留 /www/cgi-bin）
+for p in "$DST"/*; do
+  [ -e "$p" ] || continue
+  [ "$(basename "$p")" = "cgi-bin" ] && continue
+  rm -rf "$p"
+done
 
-# 只覆盖静态文件，不动 /www/cgi-bin
-cp -f "$SRC/index.html" "$DST/"
-cp -rf "$SRC/assets" "$DST/"
+# 2) 复制 dist 的全部内容到 /www
+# 说明：dist 里可能只有 index.html，也可能还有 favicon/icons/assets 等目录
+cp -rf "$SRC"/* "$DST"/ 2>/dev/null || true
 
-echo "[OK] UI deployed to $DST (cgi-bin kept)"
+echo "[OK] UI deployed: $SRC -> $DST (kept $DST/cgi-bin)"

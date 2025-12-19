@@ -5,12 +5,14 @@ import Components from "unplugin-vue-components/vite"
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers"
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { viteSingleFile } from 'vite-plugin-singlefile'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   plugins: [
     vue(),
+    viteSingleFile(),
     AutoImport({
       imports: ["vue"],
       dts: "src/auto-imports.d.ts",
