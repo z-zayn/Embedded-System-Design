@@ -1,5 +1,5 @@
 # ====== toolchain ======
-CROSS ?= arm-linux-gnueabi-
+CROSS ?= arm-linux-
 CC_ARM := $(CROSS)gcc
 CC_HOST := gcc
 
